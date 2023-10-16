@@ -19,6 +19,7 @@ class GameDataHandler {
         return;
     }
     public String renderCategoryDisplay (){
+
         String renderedDisp = "";
         for (String categoryName : this.categoryNames) {
             renderedDisp += categoryName;
