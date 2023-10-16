@@ -1,3 +1,11 @@
+// Jeopardy game, Gameshow assignment ICS4U
+// By Bala Venkataraman, October 19 2023
+// challenge feature: Music
+// Challenge feature: timer with interrupt
+// challenge feature: previous game logs.
+
+
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
