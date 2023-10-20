@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.math.*;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -63,6 +64,7 @@ class GameDataHandler {
             for (int i = 0; i < this.categoryNames.length; i++){
                 if ( !answered[m][i] ){
                     renderedDisp += (m+1)*100;
+
                     renderedDisp += "  ";
                 }
                 else{
@@ -127,6 +129,7 @@ public class Gameshow {
             else{
                 int ret = gdh.setCategories(currentinput);
             }
+
 
 
 
