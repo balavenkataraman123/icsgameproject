@@ -5,9 +5,8 @@
 // challenge feature: previous game logs.
 import java.io.RandomAccessFile;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 import java.math.*;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -20,10 +19,13 @@ class GameDataHandler {
     String[] categoryNames = new String[5]; // names of each category that has been selected
     int numcategories = 0;
     String[][] questiontexts = new String[5][5]; // question texts of each category amount
-    Boolean [][] answered;
-    public static List<String> getAllFiles(File curDir) {
+    List<String> [][] answers = new List[5][5]; // question texts of each category amount
+    Boolean [][] answered = new Boolean[5][5] ;
+
+    public static List<String> getAllFiles(String currPath) {
+        File curDir =  new File(currPath);
         // reads all the files in a directory and returns a list of their file names
-        List<String> filename = new ArrayList<>();;
+        List<String> filename = new ArrayList<>();
         File[] filesList = curDir.listFiles();
         for(File f : filesList){
             if(f.isFile()){
@@ -36,39 +38,82 @@ class GameDataHandler {
         return filename;
     }
 
-    public int setCategories(String inCategoryname){
-
+    public int setCategories(String currPath, String inCategoryname) {
+        String str;
+        String opcode;
         this.categoryNames[numcategories] = inCategoryname;
-        numcategories += 1;
+        int thisindex = 0;
+
         try {
-            RandomAccessFile file = new RandomAccessFile(inCategoryname + ".txt", "r");
-            return(0);
+            RandomAccessFile file = new RandomAccessFile(currPath + "/" + inCategoryname + ".txt", "r"); // This program was developed on a Unix system (Mac OS), so the path separator is a / On a Windows system, it should be changed to \.
+
+
+            while (true) { // reads all lines of the problem set file
+                str = file.readLine();
+                if (str.substring(0,3).equals("END")) {
+
+                    break;
+                }
+
+                opcode = str.substring(0, 5);
+                if(opcode.equals("$QUES")){
+                    questiontexts[numcategories][thisindex] = str.substring(6, str.length());
+                }
+                else if (opcode.equals("$ANSW")){
+                    answers[numcategories][thisindex] = new ArrayList<String>();
+
+                    String[] posans = str.substring(6,str.length()).split(";");
+                    for(int i = 0; i < posans.length; i++){
+
+                        answers[numcategories][thisindex].add(posans[i]);
+                    }
+                    this.answered[numcategories][thisindex] = false;
+                    thisindex += 1;
+
+                }
+            }
 
         }
         catch (Exception e) {
             System.out.println("There was an error reading the file. The file is likely in incorrect format for this program. Please verify the files in the question directory.");
-            return(1);
+            return (1);
         }
 
+        while(thisindex < 5){
+            this.answered[numcategories][thisindex] = true;
+
+            thisindex += 1;
+        }
+        numcategories += 1;
+        return(0);
 
     }
-    public String renderCategoryDisplay (){
 
-        String renderedDisp = "";
+
+
+    public String renderDisplay (){ // this renders the state of the game to the screen. Direct X GPU acceleration not implemented yet.
+
+        String renderedDisp = " ";
+        int rightgap;
+        int leftgap;
         for (String categoryName : this.categoryNames) {
             renderedDisp += categoryName;
             renderedDisp += " ";
         }
         renderedDisp += "\n";
         for (int m = 0; m < 5; m++){
-            for (int i = 0; i < this.categoryNames.length; i++){
-                if ( !answered[m][i] ){
-                    renderedDisp += (m+1)*100;
+            for (int i = 0; i < this.numcategories; i++){
 
-                    renderedDisp += "  ";
+
+                if ( !this.answered[i][m] ){
+                    rightgap = Math.max(0, (int) Math.floor( (this.categoryNames[i].length() - 3) / 2.0 ));
+                    leftgap = Math.max(0, (int) Math.ceil( (this.categoryNames[i].length() - 3) / 2.0 ) + 1);
+                    renderedDisp += " ".repeat(leftgap);
+                    renderedDisp += (m + 1) * 100;
+                    renderedDisp += " ".repeat(rightgap);
                 }
                 else{
-                    renderedDisp += "     ";
+                    renderedDisp += " ".repeat(this.categoryNames[i].length() + 1);
                 }
             }
             renderedDisp += "\n";
@@ -82,19 +127,32 @@ class GameDataHandler {
 
 
 public class Gameshow {
+    public static String thisans;
+    public static int thisswitchmode = 1;
+    static TimerTask task = new TimerTask()
+    {
+        public void run()
+        {
+            if(thisans.equals(""))
+            {
+                System.out.println( "you input nothing. exit..." );
+                thisswitchmode = 0;
+            }
+        }
+    };
+    static Timer timer = new Timer();
+
     String[] categories = new String[5];
 
     public static void main(String[] args) {
         GameDataHandler gdh = new GameDataHandler();
         Scanner userinp = new Scanner(System.in);
         String currentinput;
-        File curDir;
+        String curDir;
 
         System.out.println("Enter the file path to the questions folder");
-        currentinput = userinp.nextLine();
-        curDir = new File(currentinput);
-
-        List<String> qFilesList = GameDataHandler.getAllFiles(curDir);
+        curDir = userinp.nextLine();
+        List<String> qFilesList = gdh.getAllFiles(curDir);
         System.out.println("Loaded problem sets\n\nThe possible categories to play are: \n");
         for (String fname : qFilesList) {
             System.out.println(fname); // displays problem set filenames for selection
@@ -127,9 +185,17 @@ public class Gameshow {
                 break;
             }
             else{
-                int ret = gdh.setCategories(currentinput);
+                int ret = gdh.setCategories(curDir, currentinput);
             }
         }
+        thisans = "";
+        thisswitchmode = 0;
+        timer.schedule(task, 10*1000 );
+        Scanner sc = new Scanner(System.in);
+        thisans = userinp.nextLine();
+        timer.cancel();
+
+        System.out.println(gdh.renderDisplay());
 
 
 
