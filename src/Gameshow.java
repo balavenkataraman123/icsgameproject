@@ -129,10 +129,6 @@ public class Gameshow {
             else{
                 int ret = gdh.setCategories(currentinput);
             }
-
-
-
-
         }
 
 
