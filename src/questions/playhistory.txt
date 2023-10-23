@@ -1,16 +1,20 @@
+
+Jeopardy game result log
+
+
 GAME LOG
 
 GAME BOARD STATUS
- yeet 
-  100
-  200
-     
-     
-     
+ example 
+   100  
+   200  
+        
+   400  
+        
 
 TEAM SCORE STATUS
-Team a 0
-Team b 0
+Team redsuns 500
+Team bluemoons 0
 
 
 

@@ -325,7 +325,7 @@ public class Gameshow {
                         fr.write("$QUES " + currentinput + "\n");
                         System.out.print("Answers: ");
                         currentinput = userinp.nextLine();
-                        fr.write("ANSW " + currentinput + "\n");
+                        fr.write("$ANSW " + currentinput + "\n");
                     }
                     fr.write("END");
                     fr.close();
@@ -549,10 +549,6 @@ public class Gameshow {
 
                 System.out.print("Press any key to exit to main menu");
                 currentinput = userinp.nextLine();
-
-
-
-
 
         }
         }
