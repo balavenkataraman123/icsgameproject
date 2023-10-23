@@ -1,0 +1,16 @@
+GAME LOG
+
+GAME BOARD STATUS
+ yeet 
+  100
+  200
+     
+     
+     
+
+TEAM SCORE STATUS
+Team a 0
+Team b 0
+
+
+

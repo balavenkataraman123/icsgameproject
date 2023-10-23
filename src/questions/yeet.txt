@@ -1,5 +1,0 @@
-$QUES TEST QUESTION
-$ANSW cum;cream;
-$QUES WHAT IS BIG
-$ANSW dick;cock;penis
-END

@@ -1,0 +1,11 @@
+$QUES 1+1
+ANSW 2;two
+$QUES 2+2
+ANSW 4;four
+$QUES 3+3
+ANSW 6;six
+$QUES 4+4
+ANSW 8;eight
+$QUES 5+5
+ANSW 10;ten
+END
