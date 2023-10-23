@@ -1,0 +1,7 @@
+$QUES What state is Deez Nuts from
+$ANSW Iowa;iowa
+$QUES After Deez Nuts dropped out, who did he support in the Republican Primary
+$ANSW John Kasich;john kasich;Kasich;kasich
+$QUES What percent did Deez Nuts poll in a presidential poll in North Carolina in 2015?
+$ANSW 9%
+END

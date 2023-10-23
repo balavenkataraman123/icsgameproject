@@ -5,16 +5,16 @@ Jeopardy game result log
 GAME LOG
 
 GAME BOARD STATUS
- example 
-   100  
-   200  
-        
-   400  
-        
+ deez example 
+        100  
+        200  
+        300  
+        400  
+             
 
 TEAM SCORE STATUS
-Team redsuns 500
-Team bluemoons 0
+Team bala 600
+Team darian 500
 
 
 
